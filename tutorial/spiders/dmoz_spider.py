@@ -17,17 +17,11 @@ class DmozSpider(scrapy.Spider):
     allowed_domains = ["dmoz.org"]
     productid = '3527963'
     mailto_list = ['364756388@qq.com']
-    # db = torndb.Connection('localhost', 'smzdm', 'root', '')
-
-
     start_urls = [
         "https://item.jd.com/1447319.html",
         "https://item.jd.com/2195401.html"
-    ]
+     ]
 
-
-    # if __name__ == "__main__":
-    #     send_mail(mailto_list, "nihaome", "this is 86897238")
 
     def parse(self, response):
         db = torndb.Connection('localhost', 'smzdm', 'root', '')
@@ -49,13 +43,14 @@ class DmozSpider(scrapy.Spider):
             print price
             # print data['price_set']
             print price < data['price_set']
-            if price < data['price_set']:
+            if price < data['price_set'] and 不等于当前价格:
                 send_mail(['364756388@qq.com'], productid, "new price is"+str(price).encode("utf-8"))
+		#更新当前价格
             else:
                 print "价格没有降!"
         else:
-            sql = "INSERT INTO goods (id, price_set) VALUES (%s, %s)"
-            db.insert(sql, productid, price)
+            sql = "INSERT INTO goods (id, price_set ,price_ ,price_) VALUES (%s, %s)"
+            db.insert(sql, productid, price, price ,price)
 
 
 
